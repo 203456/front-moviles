@@ -49,8 +49,17 @@ android {
         applicationId "com.example.brilliant_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+<<<<<<< HEAD
         minSdkVersion 19
         multiDexEnabled true
+=======
+<<<<<<< HEAD
+        minSdkVersion 19
+        multiDexEnabled true
+=======
+        minSdkVersion 21
+>>>>>>> 5aa8b2dccea61d4b8e5a277b72523795981cba15
+>>>>>>> e9545af6f48756ebb17fe472ccc3fc1b3b43e091
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
