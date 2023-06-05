@@ -2,7 +2,7 @@ import 'package:brilliant_app/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class FeedScreen extends StatefulWidget {
+class FeedScreen extends StatefulWidget  {
   const FeedScreen({super.key});
 
   @override
