@@ -1,6 +1,7 @@
 import 'package:brilliant_app/User/presentation/widgets/form_container.dart';
 import 'package:brilliant_app/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SingIn extends StatelessWidget {
   const SingIn({super.key});
@@ -17,9 +18,35 @@ class SingIn extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Stack(children: [
               Center(
-                  child: Image.asset('assets/BrillantLogo.png',
-                      width: double.infinity)),
-              LoginForm(),
+                  child: Image.asset(
+                'assets/BrillantLogo.png',
+                width: double.infinity,
+              )),
+              SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const LoginForm(),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30.0, top: 150.0),
+                      child: RichText(
+                          text: const TextSpan(
+                              style: TextStyle(
+                                  fontSize: 14.0,
+                                  fontFamily: 'Century Gothic',
+                                  color: black),
+                              children: <TextSpan>[
+                            TextSpan(text: 'Already have an account? '),
+                            TextSpan(
+                                text: 'Sign up.',
+                                style: TextStyle(fontWeight: FontWeight.bold))
+                          ])),
+                    )
+                  ],
+                ),
+              )
             ]),
           ),
         ),
@@ -39,9 +66,9 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 300.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
             'Login',
@@ -67,38 +94,15 @@ class LoginForm extends StatelessWidget {
               isPasswordFiel: true,
             ),
           ),
-          Container(
-            height: 100.0,
-            width: 100.0,
-            decoration: BoxDecoration(
-                color: primaryColor, borderRadius: BorderRadius.circular(10.0)),
-            child: CustomPaint(painter: TriangulePainter()),
-          )
+          GestureDetector(
+              onTap: () {},
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30.0),
+                child: SvgPicture.asset('assets/buttonPlay.svg',
+                    width: 100.0, height: 100.0),
+              )),
         ],
       ),
     );
   }
-}
-
-class TriangulePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-
-    final path = Path();
-
-    path.moveTo(25, 25);
-    path.conicTo(78, 49, 50, size.height * 2 / 3, 6);
-    path.moveTo(25, 75);
-    path.conicTo(25, 20, 50, size.height * 1 / 3, 6);
-    path.moveTo(75, 50);
-    path.conicTo(25, 80, 25, 50, 6);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
