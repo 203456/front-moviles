@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "471087507672",
+    "project_id": "brillant-f2652",
+    "storage_bucket": "brillant-f2652.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471087507672:android:a299d67308b75ac940cfad",
+        "android_client_info": {
+          "package_name": "com.example.brilliant_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471087507672-i8a52koan47gr6smc54u03isj6600avk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.brilliant_app",
+            "certificate_hash": "4652a285cf3634b498d50537e951d370fbb4baed"
+          }
+        },
+        {
+          "client_id": "471087507672-0obsb99ongq85lrok6fh6g0mjafk3vej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdKOge62m0yJNhf2ugjTibOT_EhsT4BEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471087507672-0obsb99ongq85lrok6fh6g0mjafk3vej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,12 +1,13 @@
 import 'package:brilliant_app/Profile/domain/entities/profile.dart';
+
 import 'package:brilliant_app/Profile/domain/repositories/profile_repository.dart';
 
-class GetFollowingUseCase{
+class UpdateProfileUseCase{
   final ProfileRepository profileRepository;
 
-  GetFollowingUseCase(this.profileRepository);
+  UpdateProfileUseCase(this.profileRepository);
 
-  Future<Profile> excute( List following) async{
-    return await profileRepository.getFollowing(following);
+  Future<void> excute(Profile profile) async{
+    return await profileRepository.updateProfile(profile);
   }
 }
