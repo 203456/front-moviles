@@ -1,16 +1,15 @@
 import 'package:brilliant_app/Profile/domain/entities/profile.dart';
-import 'package:brilliant_app/profile/domain/entities/profile.dart';
+
 class ProfileModel extends Profile {
   ProfileModel({
     required int id,
     required String name,
     required String username,
-    required String password,
     required String location,
     required String birth,
     required String bio,
-    required List<dynamic> followers,
-    required List<dynamic> following
+    required List<ListFollowers> followers,
+    required List<ListFollowing> following
   }) : super(id: id, name: name, username: username, location: location, birth: birth, bio: bio, followers: followers, following: following );
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -18,7 +17,6 @@ class ProfileModel extends Profile {
       id: json['id'],
       name: json['name'],
       username: json['userename'],
-      password: json['password'],
       location: json['location'],
       birth: json['birth'],
       bio: json['bio'],
@@ -31,11 +29,12 @@ class ProfileModel extends Profile {
     return ProfileModel(
       id: profile.id,
       name: profile.name,
-      username: profile.profilename,
-      password: profile.password,
+      username: profile.username,
       location: profile.location,
       birth: profile.birth,
-      bio: profile.g
+      bio: profile.bio,
+      followers: [],
+      following: []
     );
   }
 
@@ -43,11 +42,11 @@ class ProfileModel extends Profile {
     return {
       'id': id,
       'name': name,
-      'profilename': profilename,
-      'password': password,
+      'username': username,
       'location': location,
       'birth': birth,
-      'gamertag': gamertag
+      'followers': followers,
+      'following': following
     };
   }
 }
