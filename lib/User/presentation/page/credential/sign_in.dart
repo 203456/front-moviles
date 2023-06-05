@@ -1,5 +1,7 @@
+import 'package:brilliant_app/User/presentation/page/credential/sign_up.dart';
 import 'package:brilliant_app/User/presentation/widgets/form_container.dart';
 import 'package:brilliant_app/const.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -32,16 +34,25 @@ class SingIn extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30.0, top: 150.0),
                       child: RichText(
-                          text: const TextSpan(
-                              style: TextStyle(
+                          text: TextSpan(
+                              style: const TextStyle(
                                   fontSize: 14.0,
                                   fontFamily: 'Century Gothic',
                                   color: black),
                               children: <TextSpan>[
-                            TextSpan(text: 'Already have an account? '),
+                            const TextSpan(text: "Don't have an account? "),
                             TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SignUp()));
+                                  },
                                 text: 'Sign up.',
-                                style: TextStyle(fontWeight: FontWeight.bold))
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold))
                           ])),
                     )
                   ],
@@ -56,11 +67,8 @@ class SingIn extends StatelessWidget {
 }
 
 class LoginForm extends StatelessWidget {
-  final BoxConstraints? viewportConstraints;
-
   const LoginForm({
     super.key,
-    this.viewportConstraints,
   });
 
   @override
@@ -82,13 +90,13 @@ class LoginForm extends StatelessWidget {
                 ]),
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
+            padding: EdgeInsets.only(top: 40.0, bottom: 20.0),
             child: FormContainer(
               hintText: 'Username',
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(bottom: 30.0),
+            padding: EdgeInsets.only(bottom: 40.0),
             child: FormContainer(
               hintText: 'Password',
               isPasswordFiel: true,

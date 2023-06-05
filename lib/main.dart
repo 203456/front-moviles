@@ -1,4 +1,6 @@
 import 'package:brilliant_app/User/presentation/page/credential/sign_in.dart';
+import 'package:brilliant_app/User/presentation/page/credential/sign_up.dart';
+import 'package:brilliant_app/User/presentation/page/feed_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'brillant',
       theme: ThemeData(fontFamily: 'Century Gothic'),
-      home: const SingIn(),
+      home: const FeedScreen(),
     );
   }
 }

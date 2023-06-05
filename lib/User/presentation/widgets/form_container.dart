@@ -39,9 +39,9 @@ class _FormContainerState extends State<FormContainer> {
       width: double.infinity,
       decoration: BoxDecoration(
           color: secondaryColor.withOpacity(.75),
-          borderRadius: BorderRadius.circular(10)),
+          borderRadius: BorderRadius.circular(10.0)),
       child: TextFormField(
-        style: const TextStyle(color: black),
+        style: const TextStyle(color: black, fontSize: 18.0),
         controller: widget.controller,
         keyboardType: widget.inputType,
         key: widget.fieldKey,
