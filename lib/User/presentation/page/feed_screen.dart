@@ -16,13 +16,13 @@ class _FeedScreenState extends State<FeedScreen> {
     return Scaffold(
       bottomNavigationBar: CupertinoTabBar(backgroundColor: grey, items: const [
         BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home, color: grey), label: ''),
+            icon: Icon(CupertinoIcons.home, color: black), label: ''),
         BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.search, color: grey), label: ''),
+            icon: Icon(CupertinoIcons.search, color: black), label: ''),
         BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.add, color: grey), label: ''),
+            icon: Icon(CupertinoIcons.add, color: black), label: ''),
         BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.person, color: grey), label: ''),
+            icon: Icon(CupertinoIcons.person, color: black), label: ''),
       ]),
     );
   }

@@ -1,14 +1,16 @@
 import 'package:brilliant_app/User/domain/entities/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserModel extends User {
+class UserModel extends UserEntity {
   UserModel(
-      {required int id,
+      {required String id,
       required String name,
       required String email,
       required String username,
       required String password,
       required String location,
       required String birth,
+      required String bio,
       required String gamertag})
       : super(
             id: id,
@@ -18,30 +20,22 @@ class UserModel extends User {
             password: password,
             location: location,
             birth: birth,
+            bio: bio,
             gamertag: gamertag);
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-        id: json['id'],
-        name: json['name'],
-        email: json['email'],
-        username: json['username'],
-        password: json['password'],
-        location: json['location'],
-        birth: json['birth'],
-        gamertag: json['gamertag']);
-  }
+  factory UserModel.fromSnapshot(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
 
-  factory UserModel.fromEntity(User user) {
     return UserModel(
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        username: user.username,
-        password: user.password,
-        location: user.location,
-        birth: user.birth,
-        gamertag: user.gamertag);
+        id: snapshot['id'],
+        name: snapshot['name'],
+        email: snapshot['email'],
+        username: snapshot['username'],
+        password: snapshot['password'],
+        location: snapshot['location'],
+        birth: snapshot['birth'],
+        bio: snapshot['bio'],
+        gamertag: snapshot['gamertag']);
   }
 
   Map<String, dynamic> toJson() {
@@ -53,6 +47,7 @@ class UserModel extends User {
       'password': password,
       'location': location,
       'birth': birth,
+      'bio': bio,
       'gamertag': gamertag
     };
   }

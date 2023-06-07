@@ -1,5 +1,5 @@
-class User {
-  final int id;
+class UserEntity {
+  final String id;
   final String name;
   final String email;
   final String username;
@@ -7,8 +7,9 @@ class User {
   final String location;
   final String birth;
   final String gamertag;
+  final String bio;
 
-  User(
+  UserEntity(
       {required this.id,
       required this.name,
       required this.email,
@@ -16,5 +17,7 @@ class User {
       required this.password,
       required this.location,
       required this.birth,
+      required this.bio,
       required this.gamertag});
+
 }
