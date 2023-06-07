@@ -12,39 +12,65 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final FirebaseAuth firebaseAuth;
   final FirebaseStorage firebaseStorage;
 
-  FirebaseRemoteDataSourceImpl(
+  UserRemoteDataSourceImpl(
       {required this.firebaseStorage,
       required this.firebaseFirestore,
       required this.firebaseAuth});
 
-  Future<String> getCurrentUid() async => firebaseAuth.currentUser!.uid;
-
   @override
   Future<void> createUser(UserEntity user) async {
-    final collection = firebaseFirestore.collection(FirebaseConst.users);
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
 
     final uid = await getCurrentUid();
 
-    collection.doc(uid).get().then((userDoc) {
+    userCollection.doc(uid).get().then((userDoc) {
       final newUser = UserModel(
-              id: user.id,
-              name: user.name,
-              password: user.password,
-              email: user.email,
-              bio: user.bio,
-              username: user.username,
-              birth: user.birth,
-              gamertag: user.gamertag,
-              location: user.location)
-          .toJson();
+        id: uid,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        location: user.location,
+        birth: user.birth,
+        bio: user.bio,
+        username: user.username,
+        gamertag: user.gamertag,
+      ).toJson();
 
       if (!userDoc.exists) {
-        collection.doc(uid).set(newUser);
+        userCollection.doc(uid).set(newUser);
       } else {
-        collection.doc(uid).update(newUser);
+        userCollection.doc(uid).update(newUser);
       }
     }).catchError((error) {
       toast("Some error occur");
     });
+  }
+
+  @override
+  Future<String> getCurrentUid() async => firebaseAuth.currentUser!.uid;
+
+  @override
+  Future<bool> isSignIn() async => firebaseAuth.currentUser?.uid != null;
+
+  @override
+  Future<void> signInUser(UserEntity user)async {
+    try {
+      if (user.email.isNotEmpty || user.password.isNotEmpty) {
+        await firebaseAuth.signInWithEmailAndPassword(email: user.email, password: user.password);
+      } else {
+        print("Los campos no pueden ser vacios");
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        toast("user not found");
+      } else if (e.code == "wrong-password") {
+        toast("Invalid email or password");
+      }
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
   }
 }
