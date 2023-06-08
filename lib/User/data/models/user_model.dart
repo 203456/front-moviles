@@ -2,16 +2,26 @@ import 'package:brilliant_app/User/domain/entities/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel extends UserEntity {
-  UserModel(
-      {required String id,
-      required String name,
-      required String email,
-      required String username,
-      required String password,
-      required String location,
-      required String birth,
-      required String bio,
-      required String gamertag})
+  final String? id;
+  final String? name;
+  final String? email;
+  final String? username;
+  final String? password;
+  final String? location;
+  final String? birth;
+  final String? gamertag;
+  final String? bio;
+
+  UserModel(  
+      {this.id,
+      this.name,
+      this.email,
+      this.username,
+      this.password,
+      this.location,
+      this.birth,
+      this.bio,
+      this.gamertag})
       : super(
             id: id,
             name: name,

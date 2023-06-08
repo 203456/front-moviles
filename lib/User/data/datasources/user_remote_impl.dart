@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:brilliant_app/User/data/datasources/user_remote.dart';
 import 'package:brilliant_app/User/data/models/user_model.dart';
 import 'package:brilliant_app/User/domain/entities/user.dart';
@@ -16,6 +18,30 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       {required this.firebaseStorage,
       required this.firebaseFirestore,
       required this.firebaseAuth});
+
+  Future<void> createUserWithImage(UserEntity user, String profileUrl) async {
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
+
+    final uid = await getCurrentUid();
+
+    userCollection.doc(uid).get().then((userDoc) {
+      final newUser = UserModel(
+        id: uid,
+        name: user.name,
+        email: user.email,
+        bio: user.bio,
+        username: user.username,
+      ).toJson();
+
+      if (!userDoc.exists) {
+        userCollection.doc(uid).set(newUser);
+      } else {
+        userCollection.doc(uid).update(newUser);
+      }
+    }).catchError((error) {
+      toast("Some error occur");
+    });
+  }
 
   @override
   Future<void> createUser(UserEntity user) async {
@@ -53,10 +79,44 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<bool> isSignIn() async => firebaseAuth.currentUser?.uid != null;
 
   @override
-  Future<void> signInUser(UserEntity user)async {
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
+  }
+
+  @override
+  Future<void> signUpUser(UserEntity user) async {
     try {
-      if (user.email.isNotEmpty || user.password.isNotEmpty) {
-        await firebaseAuth.signInWithEmailAndPassword(email: user.email, password: user.password);
+      await firebaseAuth
+          .createUserWithEmailAndPassword(
+              email: user.email!, password: user.password!)
+          .then((currentUser) async {
+        if (currentUser.user?.uid != null) {
+          if (user.imageFile != null) {
+            uploadImageToStorage(user.imageFile, false, "profileImages")
+                .then((profileUrl) {
+              createUserWithImage(user, profileUrl);
+            });
+          } else {
+            createUserWithImage(user, "");
+          }
+        }
+      });
+      return;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "email-already-in-use") {
+        toast("email is already taken");
+      } else {
+        toast("something went wrong");
+      }
+    }
+  }
+
+  @override
+  Future<void> signInUser(UserEntity user) async {
+    try {
+      if (user.email!.isNotEmpty || user.password!.isNotEmpty) {
+        await firebaseAuth.signInWithEmailAndPassword(
+            email: user.email!, password: user.password!);
       } else {
         print("Los campos no pueden ser vacios");
       }
@@ -70,7 +130,23 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<void> signOut() async {
-    await firebaseAuth.signOut();
+  Future<String> uploadImageToStorage(
+      File? file, bool isPost, String childName) async {
+    Reference ref = firebaseStorage
+        .ref()
+        .child(childName)
+        .child(firebaseAuth.currentUser!.uid);
+
+    if (isPost) {
+      String id = const Uuid().v1();
+      ref = ref.child(id);
+    }
+
+    final uploadTask = ref.putFile(file!);
+
+    final imageUrl =
+        (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
+
+    return await imageUrl;
   }
 }
