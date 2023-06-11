@@ -50,8 +50,8 @@ class ProfileModel extends Profile {
       'username': username,
       'location': location,
       'birth': birth,
-      'followers' : followers,
-      'following' : following
+      'followers': followers,
+      'following': following
     };
   }
 }
