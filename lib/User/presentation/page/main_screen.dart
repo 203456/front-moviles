@@ -1,4 +1,5 @@
 import 'package:brilliant_app/Notification/presentation/notification_screen.dart';
+import 'package:brilliant_app/Post/presentation/page/post_screen.dart';
 import 'package:brilliant_app/Profile/presentation/profile_screen.dart';
 import 'package:brilliant_app/User/presentation/page/feed_screen.dart';
 import 'package:brilliant_app/User/presentation/page/search_screen.dart';
@@ -47,9 +48,6 @@ class _MainScreenState extends State<MainScreen> {
         bottomNavigationBar: CupertinoTabBar(
           height: 60.0,
           backgroundColor: grey,
-          border: const Border(
-              top: BorderSide(
-                  color: black, width: 1.0, style: BorderStyle.solid)),
           items: [
             BottomNavigationBarItem(
               icon: _currentIndex == 0
@@ -112,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
           children: const [
             FeedScreen(),
             SearchScreen(),
-            Center(child: Text('Add')),
+            PostScreen(),
             NotificationScreen(),
             ProfileScreen()
           ],
