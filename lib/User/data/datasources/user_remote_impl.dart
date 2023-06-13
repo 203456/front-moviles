@@ -19,47 +19,22 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       required this.firebaseFirestore,
       required this.firebaseAuth});
 
-  Future<void> createUserWithImage(UserEntity user, String profileUrl) async {
-    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
-
-    final uid = await getCurrentUid();
-
-    userCollection.doc(uid).get().then((userDoc) {
-      final newUser = UserModel(
-        id: uid,
-        name: user.name,
-        email: user.email,
-        bio: user.bio,
-        username: user.username,
-      ).toJson();
-
-      if (!userDoc.exists) {
-        userCollection.doc(uid).set(newUser);
-      } else {
-        userCollection.doc(uid).update(newUser);
-      }
-    }).catchError((error) {
-      toast("Some error occur");
-    });
-  }
+  @override
+  Future<String> getCurrentid() async => firebaseAuth.currentUser!.uid;
 
   @override
   Future<void> createUser(UserEntity user) async {
+    print("Entró");
     final userCollection = firebaseFirestore.collection(FirebaseConst.users);
 
-    final uid = await getCurrentUid();
+    final uid = await getCurrentid();
 
     userCollection.doc(uid).get().then((userDoc) {
       final newUser = UserModel(
-        id: uid,
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        location: user.location,
-        birth: user.birth,
-        bio: user.bio,
-        username: user.username,
-        gamertag: user.gamertag,
+          uid: uid,
+          name: user.name,
+          email: user.email,
+          bio: user.bio,
       ).toJson();
 
       if (!userDoc.exists) {
@@ -72,53 +47,29 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     });
   }
 
+
   @override
-  Future<String> getCurrentUid() async => firebaseAuth.currentUser!.uid;
+  Stream<List<UserEntity>> getSingleUser(String uid) {
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users).where("uid", isEqualTo: uid).limit(1);
+    return userCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+  }
+
+  @override
+  Stream<List<UserEntity>> getUsers(UserEntity user) {
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
+    return userCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+  }
 
   @override
   Future<bool> isSignIn() async => firebaseAuth.currentUser?.uid != null;
 
   @override
-  Future<void> signOut() async {
-    await firebaseAuth.signOut();
-  }
-
-  @override
-  Future<void> signUpUser(UserEntity user) async {
-    try {
-      await firebaseAuth
-          .createUserWithEmailAndPassword(
-              email: user.email!, password: user.password!)
-          .then((currentUser) async {
-        if (currentUser.user?.uid != null) {
-          if (user.imageFile != null) {
-            uploadImageToStorage(user.imageFile, false, "profileImages")
-                .then((profileUrl) {
-              createUserWithImage(user, profileUrl);
-            });
-          } else {
-            createUserWithImage(user, "");
-          }
-        }
-      });
-      return;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "email-already-in-use") {
-        toast("email is already taken");
-      } else {
-        toast("something went wrong");
-      }
-    }
-  }
-
-  @override
-  Future<void> signInUser(UserEntity user) async {
+  Future<void> signInUser(UserEntity user)async {
     try {
       if (user.email!.isNotEmpty || user.password!.isNotEmpty) {
-        await firebaseAuth.signInWithEmailAndPassword(
-            email: user.email!, password: user.password!);
+        await firebaseAuth.signInWithEmailAndPassword(email: user.email!, password: user.password!);
       } else {
-        print("Los campos no pueden ser vacios");
+        print("fields cannot be empty");
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
@@ -130,23 +81,28 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<String> uploadImageToStorage(
-      File? file, bool isPost, String childName) async {
-    Reference ref = firebaseStorage
-        .ref()
-        .child(childName)
-        .child(firebaseAuth.currentUser!.uid);
-
-    if (isPost) {
-      String id = const Uuid().v1();
-      ref = ref.child(id);
-    }
-
-    final uploadTask = ref.putFile(file!);
-
-    final imageUrl =
-        (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
-
-    return await imageUrl;
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
   }
+
+  @override
+  Future<void> signUpUser(UserEntity user) async {
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(email: user.email!, password: user.password!).then((currentUser) async{
+        if (currentUser.user?.uid != null) {
+          await createUser((user));
+        }
+      });
+      return;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "email-already-in-use") {
+        toast("email is already taken");
+      } else {
+        toast("something went wrong");
+      }
+    }
+  }
+  
+ 
+
 }
