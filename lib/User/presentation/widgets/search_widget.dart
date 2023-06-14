@@ -16,15 +16,15 @@ class SearchWidget extends StatelessWidget {
       ),
       child: TextFormField(
         controller: controller,
-        style: const TextStyle(color: secondaryBlack),
+        style: const TextStyle(color: black),
         decoration: const InputDecoration(
             border: InputBorder.none,
             prefixIcon: Icon(
               Icons.search,
-              color: secondaryBlack,
+              color: black,
             ),
             hintText: "Search",
-            hintStyle: TextStyle(color: secondaryBlack, fontSize: 15)),
+            hintStyle: TextStyle(color: black, fontSize: 15)),
       ),
     );
   }

@@ -1,6 +1,7 @@
 
 
 
+import 'package:brilliant_app/User/presentation/page/credential/sign_in.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_up.dart';
 import 'package:brilliant_app/const.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class OnGenerateRoute {
     switch(settings.name) {
 
       case PageConst.signInPage: {
-        return routeBuilder(SignUp());
+        return routeBuilder(const SingIn());
       }
       case PageConst.signUpPage: {
         return routeBuilder(SignUp());
