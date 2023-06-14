@@ -1,12 +1,13 @@
+
 import 'package:brilliant_app/User/domain/entities/user.dart';
 import 'package:brilliant_app/User/domain/repositories/user_repository.dart';
 
 class GetUsersUseCase {
-  final UserRepository userRepository;
+  final UserRepository repository;
 
-  GetUsersUseCase(this.userRepository);
+  GetUsersUseCase({required this.repository});
 
-  Future<List<UserEntity>> excute() async {
-    return await userRepository.getUsers();
+  Stream<List<UserEntity>>call(UserEntity userEntity) {
+    return repository.getUsers(userEntity);
   }
 }

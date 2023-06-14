@@ -2,7 +2,7 @@ import 'package:brilliant_app/User/domain/entities/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel extends UserEntity {
-  final String? id;
+  final String? uid;
   final String? name;
   final String? email;
   final String? username;
@@ -10,10 +10,11 @@ class UserModel extends UserEntity {
   final String? location;
   final String? birth;
   final String? gamertag;
+  
   final String? bio;
 
   UserModel(  
-      {this.id,
+      {this.uid,
       this.name,
       this.email,
       this.username,
@@ -23,7 +24,7 @@ class UserModel extends UserEntity {
       this.bio,
       this.gamertag})
       : super(
-            id: id,
+            uid: uid,
             name: name,
             email: email,
             username: username,
@@ -37,7 +38,7 @@ class UserModel extends UserEntity {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return UserModel(
-        id: snapshot['id'],
+        uid: snapshot['uid'],
         name: snapshot['name'],
         email: snapshot['email'],
         username: snapshot['username'],
@@ -50,7 +51,7 @@ class UserModel extends UserEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'uid': uid,
       'name': name,
       'email': email,
       'username': username,
