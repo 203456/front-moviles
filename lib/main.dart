@@ -3,7 +3,8 @@ import 'package:brilliant_app/User/presentation/cubit/User/get_single_user/get_s
 import 'package:brilliant_app/User/presentation/cubit/User/user_cubit.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_in.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_up.dart';
-import 'package:brilliant_app/User/presentation/page/feed_screen.dart';
+import 'package:brilliant_app/User/presentation/page/main_screen.dart';
+import 'package:brilliant_app/User/presentation/page/navegation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child:  MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'brillant',
+      title: 'brilliant',
       theme: ThemeData(fontFamily: 'Century Gothic'),
       initialRoute: "/",
       routes: {
@@ -42,10 +43,10 @@ class MyApp extends StatelessWidget {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
                 if (authState is Authenticated) {
-                  return SignUp ();
+                  return MainScreen(uid: authState.uid,);
 
                 } else{
-                  return SignUp();
+                  return const SingIn();
                 }
               },
             );

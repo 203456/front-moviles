@@ -2,10 +2,15 @@ import 'package:brilliant_app/Profile/presentation/edit_profile_screen.dart';
 import 'package:brilliant_app/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../User/domain/entities/user.dart';
+import '../../User/presentation/cubit/Auth/auth_cubit.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
 
+  final UserEntity currentUser;
+  const ProfileScreen({Key? key, required this.currentUser}) : super(key: key);
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -16,9 +21,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Username',
-          style: TextStyle(
+        title: Text(
+            "${widget.currentUser.username}",
+           style: const TextStyle(
               fontSize: 20.0, color: black, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -213,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   RichText(
                                       text: TextSpan(
                                           style: TextStyle(
-                                              color: secondaryBlack
+                                              color: black
                                                   .withOpacity(0.5),
                                               fontFamily: 'Century Gothic',
                                               fontSize: 15.0),
@@ -311,10 +316,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: black),
                     ),
                   ),
-                  const Divider(
+                   const Divider(
                     thickness: 1,
                     height: 30.0,
-                    color: secondaryBlack,
+                    color: black,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
@@ -335,12 +340,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const Divider(
                     thickness: 1,
                     height: 30.0,
-                    color: secondaryBlack,
+                    color: black,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        BlocProvider.of<AuthCubit>(context).loggedOut();
+                        Navigator.pushNamedAndRemoveUntil(context, PageConst.signInPage, (route) => false);
+                      },
                       child: const Text(
                         "Logout",
                         style: TextStyle(fontSize: 15.0, color: black),

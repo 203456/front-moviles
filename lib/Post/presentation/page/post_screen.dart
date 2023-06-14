@@ -19,7 +19,7 @@ class _PostScreenState extends State<PostScreen> {
               width: 150,
               height: 150,
               decoration: BoxDecoration(
-                  color: secondaryBlack.withOpacity(0.3),
+                  color: black.withOpacity(0.3),
                   shape: BoxShape.circle),
               child: const Center(
                 child: Icon(

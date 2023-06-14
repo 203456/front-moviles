@@ -17,8 +17,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
 import 'User/presentation/cubit/Credential/credential_cubit.dart';
+import 'User/presentation/cubit/User/get_single_user/get_single_user_cubit.dart';
 
-GetIt sl = GetIt.instance;
+final sl = GetIt.instance;
 
 Future<void> init() async {
   // Cubits
@@ -34,6 +35,11 @@ Future<void> init() async {
         () => CredentialCubit(
           signUpUseCase: sl.call(),
           signInUserUseCase: sl.call(),
+    ),
+  );
+  sl.registerFactory(
+        () => GetSingleUserCubit(
+      getSingleUserUseCase: sl.call()
     ),
   );
 

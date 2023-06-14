@@ -24,7 +24,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<void> createUser(UserEntity user) async {
-    print("Entró");
     final userCollection = firebaseFirestore.collection(FirebaseConst.users);
 
     final uid = await getCurrentid();
@@ -43,6 +42,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         userCollection.doc(uid).update(newUser);
       }
     }).catchError((error) {
+      print(error);
       toast("Some error occur");
     });
   }
