@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-const backgroundColor = Color(0xFFBBBBBB);
-const black = Color(0xFF000000);
-const primaryColor = Color(0xFFCAAB7C);
-const secondaryColor = Color(0xFFD9D9D9);
+const white = Color(0xFFFEFEFF);
+const green = Color(0xFF769656);
 const grey = Color(0xFFCBCBCB);
+const black = Color(0xFF363636);
+const primaryColor = Color(0xFF7B583D);
+const secondaryColor = Color(0xFFD9D9D9);
+const secondaryBlack = Color(0xFF3F3F3F);
+const backgroundColor = Color(0xFFBBBBBB);
 const blueColor = Color(0xFF2E96CF);
 
 class FirebaseConst {
@@ -36,4 +39,3 @@ class PageConst {
   static const String followingPage = "followingPage";
   static const String followersPage = "followersPage";
 }
-
