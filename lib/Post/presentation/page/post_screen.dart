@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:brilliant_app/Post/presentation/widgets/video_player_fullscreen.dart';
-import 'package:brilliant_app/Post/presentation/widgets/video_trim_slider.dart';
 import 'package:brilliant_app/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
