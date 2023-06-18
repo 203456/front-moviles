@@ -1,35 +1,20 @@
-import 'package:brilliant_app/const.dart';
+import 'package:brilliant_app/Post/presentation/cubit/post_cubit.dart';
+import 'package:brilliant_app/Post/presentation/widgets/upload_post_main_widget.dart';
+import 'package:brilliant_app/User/domain/entities/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PostScreen extends StatefulWidget {
-  const PostScreen({super.key});
+import 'package:brilliant_app/injection_container.dart' as di;
+class PostScreen extends StatelessWidget {
+  final UserEntity currentUser;
 
-  @override
-  State<PostScreen> createState() => _PostScreenState();
-}
+  const PostScreen({Key? key, required this.currentUser}) : super(key: key);
 
-class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: Center(
-          child: Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                  color: black.withOpacity(0.3),
-                  shape: BoxShape.circle),
-              child: const Center(
-                child: Icon(
-                  Icons.upload,
-                  color: secondaryColor,
-                  size: 40.0,
-                ),
-              )),
-        ),
-      ),
+    return BlocProvider<PostCubit>(
+      create: (context) => di.sl<PostCubit>(),
+      child: UploadPostMainWidget(currentUser: currentUser),
     );
   }
 }

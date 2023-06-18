@@ -55,8 +55,8 @@ dependencies:
   firebase_core: ^2.13.1
   #Service Locator
   get_it: ^7.2.0
-
-  image_picker: ^0.8.4+11
+  video_player: ^2.6.1
+  image_picker: ^0.8.9
   intl: ^0.17.0
   uuid: ^3.0.7
   cached_network_image: ^3.2.0
@@ -64,6 +64,7 @@ dependencies:
   # add this line to your dependencies
   fluttertoast: ^8.2.2
   modal_bottom_sheet: ^2.0.1
+  chewie: ^1.5.0
 
 
   

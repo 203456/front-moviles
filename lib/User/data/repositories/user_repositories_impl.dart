@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:brilliant_app/User/domain/entities/user.dart';
 import 'package:brilliant_app/User/domain/repositories/user_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../datasources/user_remote.dart';
 
@@ -35,6 +36,14 @@ class UserRepositoryImpl implements UserRepository{
   
   @override
   Future<bool> isSignIn() async => userRemoteDataSource.isSignIn();
+
+  @override
+  Future<String> uploadImageToStorage(File? file, bool isPost, String childName) async =>
+      userRemoteDataSource.uploadImageToStorage(file, isPost, childName);
+
+  @override
+  Future<void> updateUser(UserEntity user) async => userRemoteDataSource.updateUser(user);
+
 
 
 }

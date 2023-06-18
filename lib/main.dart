@@ -4,7 +4,8 @@ import 'package:brilliant_app/User/presentation/cubit/User/user_cubit.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_in.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_up.dart';
 import 'package:brilliant_app/User/presentation/page/main_screen.dart';
-import 'package:brilliant_app/User/presentation/page/navegation_screen.dart';
+import 'package:brilliant_app/User/presentation/page/feed_screen.dart';
+import 'package:brilliant_app/on_generate_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       child:  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'brilliant',
+      onGenerateRoute: OnGenerateRoute.route,
       theme: ThemeData(fontFamily: 'Century Gothic'),
       initialRoute: "/",
       routes: {

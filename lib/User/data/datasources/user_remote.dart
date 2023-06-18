@@ -1,5 +1,7 @@
 
 
+import 'dart:io';
+
 import 'package:brilliant_app/User/domain/entities/user.dart';
 
 abstract class UserRemoteDataSource {
@@ -14,5 +16,9 @@ abstract class UserRemoteDataSource {
   Future<void> createUser(UserEntity user);
   Stream<List<UserEntity>> getUsers(UserEntity user);
   Stream<List<UserEntity>> getSingleUser(String uid);
+  Future<String> uploadImageToStorage(File? file, bool isPost, String childName);
+  Future<void> updateUser(UserEntity user);
 
+
+  
 }

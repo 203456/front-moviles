@@ -11,23 +11,29 @@ class UserEntity extends Equatable {
   final String? location;
   final String? birth;
   final String? gamertag;
+  final String? website;
   final String? bio;
   final String? status;
-
+  final String? profileUrl;
   final File? imageFile;
-
+  final num? totalPosts;
   UserEntity(
-      {this.uid,
-      this.name,
-      this.email,
-      this.username,
-      this.password,
-      this.location,
-      this.birth,
-      this.bio,
-      this.gamertag,
-      this.status,
-      this.imageFile});
+      {
+        this.website,
+        this.uid,
+        this.name,
+        this.email,
+        this.username,
+        this.password,
+        this.location,
+        this.birth,
+        this.bio,
+        this.gamertag,
+        this.status,
+        this.profileUrl,
+        this.totalPosts,
+
+        this.imageFile});
 
   @override
   List<Object?> get props =>[
@@ -41,7 +47,10 @@ class UserEntity extends Equatable {
     bio,
     gamertag,
     status,
+    profileUrl,
     imageFile,
+    website,
+    totalPosts
 
   ];
 }

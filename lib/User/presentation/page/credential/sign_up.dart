@@ -1,5 +1,9 @@
 
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
+
 import 'package:brilliant_app/User/domain/entities/user.dart';
 import 'package:brilliant_app/User/presentation/cubit/Auth/auth_cubit.dart';
 import 'package:brilliant_app/User/presentation/cubit/Credential/credential_cubit.dart';
@@ -10,8 +14,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:brilliant_app/const.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:brilliant_app/profile_widget.dart';
+
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -35,6 +40,23 @@ class _SignUpState extends State<SignUp> {
     _bioController.dispose();
     _usernameController.dispose();
     super.dispose();
+  }
+  File? _image;
+  Future selectImage() async {
+    try {
+      final pickedFile = await ImagePicker.platform.getImage(source: ImageSource.gallery);
+
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+        } else {
+          print("no image has been selected");
+        }
+      });
+
+    } catch(e) {
+      toast("some error occured $e");
+    }
   }
 
 
@@ -88,6 +110,7 @@ class _SignUpState extends State<SignUp> {
               width: double.infinity,
             ),
           ),
+
           SingleChildScrollView(
             keyboardDismissBehavior:
             ScrollViewKeyboardDismissBehavior.onDrag,
@@ -151,6 +174,10 @@ class _SignUpState extends State<SignUp> {
           email: _emailController.text,
             password: _passwordController.text,
             bio: _bioController.text,
+            imageFile: _image,
+            totalPosts: 0,
+
+
 
         )
     ).then((value) => _clear());
@@ -163,6 +190,7 @@ class _SignUpState extends State<SignUp> {
       _emailController.clear();
       _passwordController.clear();
       _isSigningUp = false;
+
     });
   }
 
@@ -190,7 +218,10 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  bool _isSigningUp = false;
+  File? _image;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -223,17 +254,17 @@ class _RegisterFormState extends State<RegisterForm> {
                     color: secondaryColor,
                     borderRadius: BorderRadius.circular(40.0),
                   ),
-                  child: Icon(
-                    Icons.account_circle,
-                    size: 80.0,
-                    color: black.withOpacity(.3),
-                  ),
+                  child: profileWidget(image: _image),
                 ),
                 Positioned(
                   right: -9.0,
                   bottom: -12.0,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: (){
+                      final signUpState = context.findAncestorStateOfType<_SignUpState>();
+                      if (signUpState != null) {
+                        signUpState.selectImage();}
+                      },
                     icon: Icon(
                       Icons.add_a_photo,
                       size: 25.0,

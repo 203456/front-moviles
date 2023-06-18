@@ -55,7 +55,7 @@ class _FeedScreenState extends State<FeedScreen> {
               backgroundColor: backgroundColor,
               body:  Center(
                 child: Text(
-                    "pelos"
+                    "FeedScreen"
 
                 ),
               )

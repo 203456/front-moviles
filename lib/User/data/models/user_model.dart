@@ -9,8 +9,11 @@ class UserModel extends UserEntity {
   final String? password;
   final String? location;
   final String? birth;
+  final String? website;
   final String? gamertag;
-  
+  final String? profileUrl;
+  final num? totalPosts;
+
   final String? bio;
 
   UserModel(  
@@ -22,7 +25,12 @@ class UserModel extends UserEntity {
       this.location,
       this.birth,
       this.bio,
-      this.gamertag})
+        this.website,
+      this.profileUrl,
+        this.totalPosts,
+
+
+        this.gamertag})
       : super(
             uid: uid,
             name: name,
@@ -32,6 +40,10 @@ class UserModel extends UserEntity {
             location: location,
             birth: birth,
             bio: bio,
+            website: website,
+            profileUrl: profileUrl,
+              totalPosts: totalPosts,
+
             gamertag: gamertag);
 
   factory UserModel.fromSnapshot(DocumentSnapshot snap) {
@@ -46,6 +58,10 @@ class UserModel extends UserEntity {
         location: snapshot['location'],
         birth: snapshot['birth'],
         bio: snapshot['bio'],
+        website: snapshot['website'],
+        profileUrl: snapshot['profileUrl'],
+        totalPosts: snapshot['totalPosts'],
+
         gamertag: snapshot['gamertag']);
   }
 
@@ -59,7 +75,11 @@ class UserModel extends UserEntity {
       'location': location,
       'birth': birth,
       'bio': bio,
-      'gamertag': gamertag
+      "profileUrl": profileUrl,
+      'website': website,
+      'gamertag': gamertag,
+      "totalPosts": totalPosts,
+
     };
   }
 }
