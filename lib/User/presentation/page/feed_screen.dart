@@ -1,3 +1,4 @@
+import 'package:brilliant_app/Post/presentation/page/comment_screen.dart';
 import 'package:brilliant_app/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -84,26 +85,35 @@ class FeedScreen extends StatelessWidget {
                             height: MediaQuery.of(context).size.height * 0.3,
                             color: secondaryColor,
                           ),
-                          const Row(
+                          Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 10.0),
+                                padding: const EdgeInsets.only(right: 10.0),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(
-                                      CupertinoIcons.bubble_right,
-                                      color: black,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CommentScreen()));
+                                      },
+                                      child: const Icon(
+                                        CupertinoIcons.bubble_right,
+                                        color: black,
+                                      ),
                                     ),
-                                    Text(" 123")
+                                    const Text(" 123")
                                   ],
                                 ),
                               ),
-                              Row(
+                              const Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    CupertinoIcons.heart,
+                                    Icons.favorite,
                                     color: black,
                                   ),
                                   Text(" 123")

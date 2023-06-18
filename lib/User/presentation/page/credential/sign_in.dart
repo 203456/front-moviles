@@ -30,7 +30,47 @@ class SingIn extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const LoginForm(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, right: 20.0, top: 300.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Login',
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 60.0,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                      color: black.withOpacity(.25),
+                                      offset: const Offset(3, 4))
+                                ]),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 40.0, bottom: 20.0),
+                            child: FormContainer(
+                              hintText: 'Username',
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 40.0),
+                            child: FormContainer(
+                              hintText: 'Password',
+                              isPasswordFiel: true,
+                            ),
+                          ),
+                          GestureDetector(
+                              onTap: () {},
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 30.0),
+                                child: SvgPicture.asset('assets/buttonPlay.svg',
+                                    width: 100.0, height: 100.0),
+                              )),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30.0, top: 150.0),
                       child: RichText(
@@ -61,55 +101,6 @@ class SingIn extends StatelessWidget {
             ]),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class LoginForm extends StatelessWidget {
-  const LoginForm({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 300.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            'Login',
-            style: TextStyle(
-                color: primaryColor,
-                fontSize: 60.0,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                      color: black.withOpacity(.25), offset: const Offset(3, 4))
-                ]),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 40.0, bottom: 20.0),
-            child: FormContainer(
-              hintText: 'Username',
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 40.0),
-            child: FormContainer(
-              hintText: 'Password',
-              isPasswordFiel: true,
-            ),
-          ),
-          GestureDetector(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 30.0),
-                child: SvgPicture.asset('assets/buttonPlay.svg',
-                    width: 100.0, height: 100.0),
-              )),
-        ],
       ),
     );
   }

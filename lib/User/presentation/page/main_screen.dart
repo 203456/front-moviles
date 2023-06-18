@@ -107,12 +107,12 @@ class _MainScreenState extends State<MainScreen> {
         body: PageView(
           controller: pageController,
           onPageChanged: onPageChanged,
-          children: const [
-            FeedScreen(),
-            SearchScreen(),
+          children: [
+            const FeedScreen(),
+            const SearchScreen(),
             PostScreen(),
-            NotificationScreen(),
-            ProfileScreen()
+            const NotificationScreen(),
+            const ProfileScreen()
           ],
         ));
   }

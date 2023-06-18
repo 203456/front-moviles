@@ -1,5 +1,3 @@
-import 'package:brilliant_app/User/presentation/page/credential/sign_in.dart';
-import 'package:brilliant_app/User/presentation/page/credential/sign_up.dart';
 import 'package:brilliant_app/User/presentation/page/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
