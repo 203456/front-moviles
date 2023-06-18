@@ -43,4 +43,3 @@ class PageConst {
   static const String followingPage = "followingPage";
   static const String followersPage = "followersPage";
 }
-

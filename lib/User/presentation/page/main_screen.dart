@@ -43,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
   void onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
+      
     });
   }
 
