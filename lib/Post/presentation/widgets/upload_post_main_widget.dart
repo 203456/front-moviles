@@ -1,21 +1,29 @@
 import 'dart:io';
+import 'package:brilliant_app/Post/domain/entity/post_entity.dart';
+import 'package:brilliant_app/Post/presentation/cubit/post_cubit.dart';
+import 'package:brilliant_app/Post/presentation/page/post_screen.dart';
 import 'package:brilliant_app/Post/presentation/widgets/video_player_fullscreen.dart';
 import 'package:brilliant_app/User/domain/entities/user.dart';
+import 'package:brilliant_app/User/domain/usecases/upload_image_to_storage_usecase.dart';
 import 'package:brilliant_app/const.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
+import 'package:brilliant_app/injection_container.dart' as di;
 
 class UploadPostMainWidget extends StatefulWidget {
   final UserEntity currentUser;
   const UploadPostMainWidget({Key? key, required this.currentUser}) : super(key: key);
 
   @override
-  _UploadPostMainWidgetState createState() => _UploadPostMainWidgetState();
+  State<UploadPostMainWidget> createState() => _UploadPostMainWidgetState();
 }
 
-class _UploadPostMainWidgetState extends State<UploadPostMainWidget> {
+class _UploadPostMainWidgetState extends State<UploadPostMainWidget>  {
   final TextEditingController _postText = TextEditingController();
   File? _mediaFile;
   bool _isVideo = false;
@@ -27,6 +35,7 @@ class _UploadPostMainWidgetState extends State<UploadPostMainWidget> {
     _videoController?.dispose();
     super.dispose();
   }
+
 
   Future<void> _selectMedia() async {
     final pickedMedia = await _picker.pickMedia();
@@ -49,10 +58,9 @@ class _UploadPostMainWidgetState extends State<UploadPostMainWidget> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _mediaFile == null? _uploadPostWidget() :Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
@@ -114,6 +122,7 @@ class _UploadPostMainWidgetState extends State<UploadPostMainWidget> {
                   MaterialStateProperty.all<Color>(primaryColor),
                 ),
                 onPressed: () {
+                  _submitPost();
                   // Lógica para publicar el post con los datos ingresados
                   // Puedes guardar el texto, la imagen y el video en tu base de datos o enviarlo a un servidor
                 },
@@ -123,6 +132,58 @@ class _UploadPostMainWidgetState extends State<UploadPostMainWidget> {
           ),
         ),
       ),
+    );
+  }
+  _submitPost() {
+
+    di.sl<UploadImageToStorageUseCase>().call(_mediaFile!, true, "posts").then((imageUrl) {
+      _createSubmitPost(image: imageUrl);
+    });
+  }
+
+  _createSubmitPost({required String image}) {
+    BlocProvider.of<PostCubit>(context).createPost(
+        post: PostEntity(
+            description: _postText.text,
+            createAt: Timestamp.now(),
+            creatorUid: widget.currentUser.uid,
+            likes: [],
+            postId: Uuid().v1(),
+            postImageUrl: image,
+            totalComments: 0,
+            totalLikes: 0,
+            username: widget.currentUser.username,
+            userProfileUrl: widget.currentUser.profileUrl
+        )
+    ).then((value) => _clear());
+  }
+
+  _clear() {
+    setState(() {
+      _postText.clear();
+      _mediaFile = null;
+    });
+  }
+  _uploadPostWidget() {
+    return Scaffold(
+        backgroundColor: black,
+
+        body: Center(
+          child: GestureDetector(
+            onTap: _selectMedia,
+            child: Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                  color: secondaryColor.withOpacity(.3),
+                  shape: BoxShape.circle
+              ),
+              child: const Center(
+                child: Icon(Icons.upload, color: primaryColor, size: 40,),
+              ),
+            ),
+          ),
+        )
     );
   }
 }
