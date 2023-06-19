@@ -1,8 +1,5 @@
-
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-
 
 import 'package:brilliant_app/User/domain/entities/user.dart';
 import 'package:brilliant_app/User/presentation/cubit/Auth/auth_cubit.dart';
@@ -17,13 +14,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:brilliant_app/profile_widget.dart';
 
-
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
   @override
-  _SignUpState createState() => _SignUpState();}
-
+  _SignUpState createState() => _SignUpState();
+}
 
 class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
@@ -32,7 +28,6 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _bioController = TextEditingController();
   bool _isSigningUp = false;
 
-  
   @override
   void dispose() {
     _emailController.dispose();
@@ -41,10 +36,12 @@ class _SignUpState extends State<SignUp> {
     _usernameController.dispose();
     super.dispose();
   }
+
   File? _image;
   Future selectImage() async {
     try {
-      final pickedFile = await ImagePicker.platform.getImage(source: ImageSource.gallery);
+      final pickedFile =
+          await ImagePicker.platform.getImage(source: ImageSource.gallery);
 
       setState(() {
         if (pickedFile != null) {
@@ -53,134 +50,124 @@ class _SignUpState extends State<SignUp> {
           print("no image has been selected");
         }
       });
-
-    } catch(e) {
+    } catch (e) {
       toast("some error occured $e");
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child:Scaffold(resizeToAvoidBottomInset: false,
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: backgroundColor,
-          body:
-          BlocConsumer<CredentialCubit, CredentialState>(
-              listener: (context, credentialState){
-                if(credentialState is CredentialState){
-                  BlocProvider.of<AuthCubit>(context).loggedIn();
+          body: BlocConsumer<CredentialCubit, CredentialState>(
+              listener: (context, credentialState) {
+            if (credentialState is CredentialState) {
+              BlocProvider.of<AuthCubit>(context).loggedIn();
+            }
+            if (credentialState is CredentialFailure) {
+              toast("Invalid Email and Password");
+            }
+          }, builder: (context, credentialState) {
+            if (credentialState is CredentialSuccess) {
+              return BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, authState) {
+                  if (authState is Authenticated) {
+                    return MainScreen(
+                      uid: authState.uid,
+                    );
+                  } else {
+                    return _bodyWidget();
+                  }
+                },
+              );
+            }
+            return _bodyWidget();
+          }),
+        ));
+  }
 
-                }
-                if (credentialState is CredentialFailure) {
-                  toast("Invalid Email and Password");
-                }
-              },
-              builder: (context, credentialState) {
-                if (credentialState is CredentialSuccess) {
-                  return BlocBuilder<AuthCubit, AuthState>(
-                    builder: (context, authState) {
-                      if (authState is Authenticated) {
-                        return  MainScreen(uid: authState.uid,);
-                      } else {
-                        return _bodyWidget();
-
-                      }
-                    },
-                  );
-                }return _bodyWidget();
-              }
-          ),
-
-      )
+  _bodyWidget() {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Stack(
+          children: [
+            Center(
+              child: Image.asset(
+                'assets/BrillantLogo.png',
+                width: double.infinity,
+              ),
+            ),
+            SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  RegisterForm(
+                    emailController: _emailController,
+                    usernameController: _usernameController,
+                    passwordController: _passwordController,
+                    bioController: _bioController,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 30.0, top: 150.0),
+                    child: RichText(
+                      text: TextSpan(
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                          fontFamily: 'Century Gothic',
+                          color: black,
+                        ),
+                        children: <TextSpan>[
+                          const TextSpan(
+                            text: 'Already have an account? ',
+                          ),
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SingIn(),
+                                  ),
+                                );
+                              },
+                            text: 'Sign in.',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-
-  _bodyWidget(){
-  return  SafeArea(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Stack(
-        children: [
-          Center(
-            child: Image.asset(
-              'assets/BrillantLogo.png',
-              width: double.infinity,
-            ),
-          ),
-
-          SingleChildScrollView(
-            keyboardDismissBehavior:
-            ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                RegisterForm(
-                  emailController: _emailController,
-                  usernameController: _usernameController,
-                  passwordController: _passwordController,
-                  bioController: _bioController,
-                ),
-                Padding(
-                  padding:
-                  const EdgeInsets.only(bottom: 30.0, top: 150.0),
-                  child: RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Century Gothic',
-                        color: black,
-                      ),
-                      children: <TextSpan>[
-                        const TextSpan(
-                          text: 'Already have an account? ',
-                        ),
-                        TextSpan(
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SingIn(),
-                                ),
-                              );
-                            },
-                          text: 'Sign in.',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
   Future<void> _signUpUser() async {
     setState(() {
       _isSigningUp = true;
     });
-    BlocProvider.of<CredentialCubit>(context).signUpUser(
-        user: UserEntity(
+    BlocProvider.of<CredentialCubit>(context)
+        .signUpUser(
+            user: UserEntity(
           username: _usernameController.text,
           email: _emailController.text,
-            password: _passwordController.text,
-            bio: _bioController.text,
-            imageFile: _image,
-            totalPosts: 0,
-
-
-
-        )
-    ).then((value) => _clear());
+          password: _passwordController.text,
+          bio: _bioController.text,
+          imageFile: _image,
+          totalPosts: 0,
+        ))
+        .then((value) => _clear());
   }
 
   _clear() {
@@ -190,21 +177,17 @@ class _SignUpState extends State<SignUp> {
       _emailController.clear();
       _passwordController.clear();
       _isSigningUp = false;
-
     });
   }
-
 }
 
-
 class RegisterForm extends StatefulWidget {
-
   final TextEditingController emailController;
   final TextEditingController usernameController;
   final TextEditingController passwordController;
   final TextEditingController bioController;
   bool _isUploading = false;
-  
+
   RegisterForm({
     Key? key,
     required this.emailController,
@@ -219,8 +202,6 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   File? _image;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -260,11 +241,14 @@ class _RegisterFormState extends State<RegisterForm> {
                   right: -9.0,
                   bottom: -12.0,
                   child: IconButton(
-                    onPressed: (){
-                      final signUpState = context.findAncestorStateOfType<_SignUpState>();
+                    onPressed: () async {
+                      final signUpState =
+                          context.findAncestorStateOfType<_SignUpState>();
                       if (signUpState != null) {
-                        signUpState.selectImage();}
-                      },
+                        await signUpState.selectImage();
+                        _image = signUpState._image;
+                      }
+                    },
                     icon: Icon(
                       Icons.add_a_photo,
                       size: 25.0,
@@ -276,13 +260,11 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 20.0),
-            child: FormContainer(
-              hintText: 'Username',
-              controller: widget.usernameController,
-
-            )
-          ),
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: FormContainer(
+                hintText: 'Username',
+                controller: widget.usernameController,
+              )),
           Padding(
             padding: EdgeInsets.only(bottom: 20.0),
             child: FormContainer(
@@ -306,8 +288,9 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
           ),
           GestureDetector(
-            onTap: ()  {
-              final signUpState = context.findAncestorStateOfType<_SignUpState>();
+            onTap: () {
+              final signUpState =
+                  context.findAncestorStateOfType<_SignUpState>();
               if (signUpState != null) {
                 signUpState._signUpUser();
               }
@@ -325,7 +308,4 @@ class _RegisterFormState extends State<RegisterForm> {
       ),
     );
   }
-
 }
-
-
