@@ -127,11 +127,7 @@ class SignUp extends StatelessWidget {
                             TextSpan(
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SingIn()));
+                                  Navigator.pushNamed(context, Screens.signIn);
                                 },
                               text: 'Sign in.',
                               style:

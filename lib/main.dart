@@ -1,4 +1,5 @@
-import 'package:brilliant_app/User/presentation/page/main_screen.dart';
+import 'package:brilliant_app/User/presentation/page/credential/sign_in.dart';
+import 'package:brilliant_app/on_generate_route.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -17,7 +18,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'brillant',
       theme: ThemeData(fontFamily: 'Century Gothic'),
-      home: const MainScreen(),
+      onGenerateRoute: onGenerateRoute.route,
+      initialRoute: '/',
+      routes: {
+        "/": (context) {
+          return SingIn();
+        }
+      },
     );
   }
 }

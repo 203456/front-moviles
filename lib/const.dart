@@ -25,3 +25,11 @@ void toast(String message) {
       textColor: Colors.white,
       fontSize: 16.0);
 }
+
+class Screens {
+  static const String editProfileScreen = 'editProfileScreen';
+  static const String editPostScreen = 'editPostScreen';
+  static const String commentScreen = 'commentScreen';
+  static const String signIn = 'signIn';
+  static const String signUp = 'signUp';
+}

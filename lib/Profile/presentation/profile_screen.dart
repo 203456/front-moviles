@@ -320,11 +320,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.only(left: 10.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const EditProfileScreen()));
+                        Navigator.pushNamed(context, Screens.editProfileScreen);
                       },
                       child: const Text(
                         "Edit Profile",

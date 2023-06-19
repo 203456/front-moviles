@@ -102,11 +102,8 @@ class FeedScreen extends StatelessWidget {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CommentScreen()));
+                                        Navigator.pushNamed(
+                                            context, Screens.commentScreen);
                                       },
                                       child: const Icon(
                                         CupertinoIcons.bubble_right,
@@ -173,10 +170,7 @@ class FeedScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const EditPostScreen()));
+                        Navigator.pushNamed(context, Screens.editPostScreen);
                       },
                       child: const Text(
                         "Edit Post",
