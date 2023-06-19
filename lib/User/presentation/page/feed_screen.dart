@@ -1,4 +1,5 @@
 import 'package:brilliant_app/Post/presentation/page/comment_screen.dart';
+import 'package:brilliant_app/Post/presentation/page/edit_post_screen.dart';
 import 'package:brilliant_app/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,14 @@ class FeedScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const Icon(Icons.more_vert, color: black)
+                        InkWell(
+                            onTap: () {
+                              _openBottomModal(context);
+                            },
+                            child: const Icon(
+                              Icons.more_vert,
+                              color: black,
+                            ))
                       ],
                     ),
                     Padding(
@@ -132,5 +140,69 @@ class FeedScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _openBottomModal(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 150.0,
+            decoration: BoxDecoration(color: secondaryColor.withOpacity(0.8)),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      "Options",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: black),
+                    ),
+                  ),
+                  const Divider(
+                    thickness: 1,
+                    height: 30.0,
+                    color: secondaryBlack,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EditPostScreen()));
+                      },
+                      child: const Text(
+                        "Edit Post",
+                        style: TextStyle(fontSize: 15.0, color: black),
+                      ),
+                    ),
+                  ),
+                  const Divider(
+                    thickness: 1,
+                    height: 30.0,
+                    color: secondaryBlack,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: InkWell(
+                      onTap: () {},
+                      child: const Text(
+                        "Delete post",
+                        style: TextStyle(fontSize: 15.0, color: Colors.red),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
