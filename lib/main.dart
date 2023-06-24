@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                   return MainScreen(uid: authState.uid,);
 
                 } else{
-                  return const SingIn();
+                  return const SignUp();
                 }
               },
             );

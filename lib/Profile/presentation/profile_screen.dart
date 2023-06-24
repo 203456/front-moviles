@@ -174,7 +174,7 @@
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          Text( 
                             "${widget.currentUser.location}",
                             style: TextStyle(fontSize: 15.0),
                           ),

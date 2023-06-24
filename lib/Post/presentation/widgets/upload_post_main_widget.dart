@@ -36,25 +36,19 @@ class _UploadPostMainWidgetState extends State<UploadPostMainWidget>  {
     super.dispose();
   }
 
-
   Future<void> _selectMedia() async {
-    final pickedMedia = await _picker.pickMedia();
+    final pickedMedia = await _picker.pickImage(source: ImageSource.gallery); // Cambio: Usar ImageSource.gallery para seleccionar una imagen desde la galería
     setState(() {
       if (pickedMedia != null) {
-        setState(() {
-          _isVideo = pickedMedia.path.contains('.mp4');
-          _mediaFile = File(pickedMedia.path);
-          if (_isVideo) {
-            setState(() {
-              _videoController =
-              VideoPlayerController.file(File(pickedMedia.path))
-                ..initialize().then((_) {
-                  _videoController!.play();
-                  setState(() {});
-                });
+        _isVideo = pickedMedia.path.contains('.mp4');
+        _mediaFile = File(pickedMedia.path);
+        if (_isVideo) {
+          _videoController = VideoPlayerController.file(File(pickedMedia.path))
+            ..initialize().then((_) {
+              _videoController!.play();
+              setState(() {});
             });
-          }
-        });
+        }
       }
     });
   }

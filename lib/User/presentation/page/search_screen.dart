@@ -1,35 +1,22 @@
-import 'package:brilliant_app/User/presentation/widgets/search_widget.dart';
-import 'package:brilliant_app/const.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:brilliant_app/Post/presentation/cubit/post_cubit.dart';
+import 'package:brilliant_app/User/presentation/widgets/search_main_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+import 'package:brilliant_app/injection_container.dart' as di;
 
-  @override
-  State<SearchScreen> createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
-  TextEditingController _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: backgroundColor,
-          body: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [SearchWidget(controller: _searchController)],
-            ),
-          )),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PostCubit>(
+          create: (context) => di.sl<PostCubit>(),
+        ),
+      ],
+      child: const SearchMainWidget(),
     );
   }
 }
