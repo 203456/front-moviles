@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:brilliant_app/Post/data/datasources/post_remote_datasource.dart';
@@ -13,39 +12,42 @@ import 'package:uuid/uuid.dart';
 
 import '../../../const.dart';
 
-
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   final FirebaseFirestore firebaseFirestore;
   final FirebaseAuth firebaseAuth;
   final FirebaseStorage firebaseStorage;
 
-  PostRemoteDataSourceImpl({required this.firebaseStorage, required this.firebaseFirestore, required this.firebaseAuth});
-
+  PostRemoteDataSourceImpl(
+      {required this.firebaseStorage,
+      required this.firebaseFirestore,
+      required this.firebaseAuth});
 
   @override
   Future<void> createPost(PostEntity post) async {
     final postCollection = firebaseFirestore.collection(FirebaseConst.posts);
 
     final newPost = PostModel(
-        userProfileUrl: post.userProfileUrl,
-        username: post.username,
-        totalLikes: 0,
-        totalComments: 0,
-        postImageUrl: post.postImageUrl,
-        postId: post.postId,
-        likes: [],
-        description: post.description,
-        creatorUid: post.creatorUid,
-        createAt: post.createAt
-    ).toJson();
+            userProfileUrl: post.userProfileUrl,
+            username: post.username,
+            totalLikes: 0,
+            totalComments: 0,
+            postImageUrl: post.postImageUrl,
+            postId: post.postId,
+            likes: [],
+            description: post.description,
+            creatorUid: post.creatorUid,
+            createAt: post.createAt,
+            postType: post.postType)
+        .toJson();
 
     try {
-
       final postDocRef = await postCollection.doc(post.postId).get();
 
       if (!postDocRef.exists) {
         postCollection.doc(post.postId).set(newPost).then((value) {
-          final userCollection = firebaseFirestore.collection(FirebaseConst.users).doc(post.creatorUid);
+          final userCollection = firebaseFirestore
+              .collection(FirebaseConst.users)
+              .doc(post.creatorUid);
 
           userCollection.get().then((value) {
             if (value.exists) {
@@ -59,7 +61,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
       } else {
         postCollection.doc(post.postId).update(newPost);
       }
-    }catch (e) {
+    } catch (e) {
       print("some error occured $e");
     }
   }
@@ -70,7 +72,9 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
 
     try {
       postCollection.doc(post.postId).delete().then((value) {
-        final userCollection = firebaseFirestore.collection(FirebaseConst.users).doc(post.creatorUid);
+        final userCollection = firebaseFirestore
+            .collection(FirebaseConst.users)
+            .doc(post.creatorUid);
 
         userCollection.get().then((value) {
           if (value.exists) {
@@ -84,6 +88,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
       print("some error occured $e");
     }
   }
+
   @override
   Future<String> getCurrentId() async => firebaseAuth.currentUser!.uid;
 
@@ -109,20 +114,25 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
         });
       }
     }
-
-
   }
 
   @override
   Stream<List<PostEntity>> readPosts(PostEntity post) {
-    final postCollection = firebaseFirestore.collection(FirebaseConst.posts).orderBy("createAt", descending: true);
-    return postCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => PostModel.fromSnapshot(e)).toList());
+    final postCollection = firebaseFirestore
+        .collection(FirebaseConst.posts)
+        .orderBy("createAt", descending: true);
+    return postCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => PostModel.fromSnapshot(e)).toList());
   }
 
   @override
   Stream<List<PostEntity>> readSinglePost(String postId) {
-    final postCollection = firebaseFirestore.collection(FirebaseConst.posts).orderBy("createAt", descending: true).where("postId", isEqualTo: postId);
-    return postCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => PostModel.fromSnapshot(e)).toList());
+    final postCollection = firebaseFirestore
+        .collection(FirebaseConst.posts)
+        .orderBy("createAt", descending: true)
+        .where("postId", isEqualTo: postId);
+    return postCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => PostModel.fromSnapshot(e)).toList());
   }
 
   @override
@@ -130,16 +140,11 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
     final postCollection = firebaseFirestore.collection(FirebaseConst.posts);
     Map<String, dynamic> postInfo = Map();
 
-    if (post.description != "" && post.description != null) postInfo['description'] = post.description;
-    if (post.postImageUrl != "" && post.postImageUrl != null) postInfo['postImageUrl'] = post.postImageUrl;
+    if (post.description != "" && post.description != null)
+      postInfo['description'] = post.description;
+    if (post.postImageUrl != "" && post.postImageUrl != null)
+      postInfo['postImageUrl'] = post.postImageUrl;
 
     postCollection.doc(post.postId).update(postInfo);
   }
-
-
-
-
-
-
-
 }

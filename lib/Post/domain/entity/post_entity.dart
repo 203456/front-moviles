@@ -12,32 +12,34 @@ class PostEntity extends Equatable {
   final num? totalComments;
   final Timestamp? createAt;
   final String? userProfileUrl;
+  final num? postType;
 
-  PostEntity({
-    this.postId,
-    this.creatorUid,
-    this.username,
-    this.description,
-    this.postImageUrl,
-    this.likes,
-    this.totalLikes,
-    this.totalComments,
-    this.createAt,
-    this.userProfileUrl,
-  });
+  PostEntity(
+      {this.postId,
+      this.creatorUid,
+      this.username,
+      this.description,
+      this.postImageUrl,
+      this.likes,
+      this.totalLikes,
+      this.totalComments,
+      this.createAt,
+      this.userProfileUrl,
+      this.postType});
 
   @override
   // TODO: implement props
   List<Object?> get props => [
-    postId,
-    creatorUid,
-    username,
-    description,
-    postImageUrl,
-    likes,
-    totalLikes,
-    totalComments,
-    createAt,
-    userProfileUrl,
-  ];
+        postId,
+        creatorUid,
+        username,
+        description,
+        postImageUrl,
+        likes,
+        totalLikes,
+        totalComments,
+        createAt,
+        userProfileUrl,
+        postType
+      ];
 }

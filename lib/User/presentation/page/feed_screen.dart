@@ -1,7 +1,6 @@
 
 import 'package:brilliant_app/User/presentation/page/Home/widgets/single_card_post_widget.dart';
 import 'package:brilliant_app/const.dart';
-import 'package:brilliant_app/encryptor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

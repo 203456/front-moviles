@@ -1,10 +1,7 @@
-
 import 'package:brilliant_app/Post/domain/entity/post_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class PostModel extends PostEntity {
-
   final String? postId;
   final String? creatorUid;
   final String? username;
@@ -13,32 +10,34 @@ class PostModel extends PostEntity {
   final List<String>? likes;
   final num? totalLikes;
   final num? totalComments;
+  final num? postType;
   final Timestamp? createAt;
   final String? userProfileUrl;
 
-  PostModel({
-    this.postId,
-    this.creatorUid,
-    this.username,
-    this.description,
-    this.postImageUrl,
-    this.likes,
-    this.totalLikes,
-    this.totalComments,
-    this.createAt,
-    this.userProfileUrl,
-  }) : super(
-    createAt: createAt,
-    creatorUid: creatorUid,
-    description: description,
-    likes: likes,
-    postId: postId,
-    postImageUrl: postImageUrl,
-    totalComments: totalComments,
-    totalLikes: totalLikes,
-    username: username,
-    userProfileUrl: userProfileUrl,
-  );
+  PostModel(
+      {this.postId,
+      this.creatorUid,
+      this.username,
+      this.description,
+      this.postImageUrl,
+      this.likes,
+      this.totalLikes,
+      this.totalComments,
+      this.createAt,
+      this.userProfileUrl,
+      this.postType})
+      : super(
+            createAt: createAt,
+            creatorUid: creatorUid,
+            description: description,
+            likes: likes,
+            postId: postId,
+            postImageUrl: postImageUrl,
+            totalComments: totalComments,
+            totalLikes: totalLikes,
+            username: username,
+            userProfileUrl: userProfileUrl,
+            postType: postType);
 
   factory PostModel.fromSnapshot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -53,20 +52,22 @@ class PostModel extends PostEntity {
       postImageUrl: snapshot['postImageUrl'],
       postId: snapshot['postId'],
       username: snapshot['username'],
+      postType: snapshot['postType'],
       likes: List.from(snap.get("likes")),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "createAt": createAt,
-    "creatorUid": creatorUid,
-    "description": description,
-    "userProfileUrl": userProfileUrl,
-    "totalLikes": totalLikes,
-    "totalComments": totalComments,
-    "postImageUrl": postImageUrl,
-    "postId": postId,
-    "likes": likes,
-    "username": username,
-  };
+        "createAt": createAt,
+        "creatorUid": creatorUid,
+        "description": description,
+        "userProfileUrl": userProfileUrl,
+        "totalLikes": totalLikes,
+        "totalComments": totalComments,
+        "postImageUrl": postImageUrl,
+        "postId": postId,
+        "likes": likes,
+        "username": username,
+        "postType": postType,
+      };
 }
