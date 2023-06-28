@@ -195,6 +195,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             uid: widget.currentUser.uid,
             username: _usernameController!.text,
             bio: _bioController!.text,
+            birth: _birthController!.text,
+            location: _locationController!.text,
             website: _websiteController!.text,
             name: _nameController!.text,
             profileUrl: profileUrl

@@ -11,6 +11,7 @@ import 'package:equatable/equatable.dart';
 
 part 'post_state.dart';
 
+
 class PostCubit extends Cubit<PostState> {
   final CreatePostUseCase createPostUseCase;
   final DeletePostUseCase deletePostUseCase;
@@ -23,7 +24,7 @@ class PostCubit extends Cubit<PostState> {
     required this.likePostUseCase,
     required this.createPostUseCase,
     required this.readPostUseCase
-  }) : super(PostInitial());
+}) : super(PostInitial());
 
   Future<void> getPosts({required PostEntity post}) async {
     emit(PostLoading());

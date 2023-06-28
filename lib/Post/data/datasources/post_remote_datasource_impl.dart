@@ -51,6 +51,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
             if (value.exists) {
               final totalPosts = value.get('totalPosts');
               userCollection.update({"totalPosts": totalPosts + 1});
+              toast("post uploaded");
               return;
             }
           });

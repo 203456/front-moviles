@@ -1,4 +1,6 @@
-  import 'package:brilliant_app/Profile/presentation/edit_profile_screen.dart';
+  import 'package:brilliant_app/Post/domain/entity/post_entity.dart';
+import 'package:brilliant_app/Post/presentation/cubit/post_cubit.dart';
+import 'package:brilliant_app/Profile/presentation/edit_profile_screen.dart';
   import 'package:brilliant_app/const.dart';
   import 'package:brilliant_app/profile_widget.dart';
   import 'package:flutter/cupertino.dart';
@@ -17,6 +19,7 @@
   }
 
   class _ProfileScreenState extends State<ProfileScreen> {
+
     @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -175,15 +178,15 @@
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text( 
-                            "${widget.currentUser.location}",
+                            "${widget.currentUser.location == null? "": widget.currentUser.location}",
                             style: TextStyle(fontSize: 15.0),
                           ),
                           Text(
-                            "${widget.currentUser.gamertag}",
+                            "${widget.currentUser.website == null? "": widget.currentUser.website}",
                             style: TextStyle(fontSize: 15.0),
                           ),
                           Text(
-                            "${widget.currentUser.birth}",
+                            "${widget.currentUser.birth  == null? "": widget.currentUser.birth}",
                             style: TextStyle(fontSize: 15.0),
                           ),
                         ],
@@ -193,111 +196,112 @@
                 ),
               ),
               //Posts
-              IntrinsicHeight(
-                child: Container(
-                  color: grey,
-                  margin: const EdgeInsets.only(bottom: 5.0),
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                    margin: const EdgeInsets.only(right: 8.0),
-                                    width: 40.0,
-                                    height: 40.0,
-                                    decoration: const BoxDecoration(
-                                        color: primaryColor,
-                                        shape: BoxShape.circle)),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RichText(
-                                        text: TextSpan(
-                                            style: TextStyle(
-                                                color: black
-                                                    .withOpacity(0.5),
-                                                fontFamily: 'Century Gothic',
-                                                fontSize: 15.0),
-                                            children: const <TextSpan>[
-                                          TextSpan(
-                                              text: 'Username',
-                                              style: TextStyle(
-                                                  color: black,
-                                                  fontWeight: FontWeight.bold)),
-                                          TextSpan(text: ' @username · 1min')
-                                        ])),
-                                    const Text(
-                                      "Description Description Description Description",
-                                      style: TextStyle(color: black),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const Icon(Icons.more_vert, color: black)
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 48.0),
-                          child: Column(
+                  IntrinsicHeight(
+              child: Container(
+                color: grey,
+                margin: const EdgeInsets.only(bottom: 5.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
                               Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
-                                width: double.infinity,
-                                height: MediaQuery.of(context).size.height * 0.3,
-                                color: secondaryColor,
-                              ),
-                              const Row(
+                                  margin: const EdgeInsets.only(right: 8.0),
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: const BoxDecoration(
+                                      color: primaryColor,
+                                      shape: BoxShape.circle)),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 10.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          CupertinoIcons.bubble_right,
-                                          color: black,
-                                        ),
-                                        Text(" 123")
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                  RichText(
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                              color: secondaryBlack
+                                                  .withOpacity(0.5),
+                                              fontFamily: 'Century Gothic',
+                                              fontSize: 15.0),
+                                          children: const <TextSpan>[
+                                        TextSpan(
+                                            text: 'Username',
+                                            style: TextStyle(
+                                                color: black,
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(text: ' @username · 1min')
+                                      ])),
+                                  const Text(
+                                    "Description Description Description Description",
+                                    style: TextStyle(color: black),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Icon(Icons.more_vert, color: black)
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 48.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              color: secondaryColor,
+                            ),
+                            const Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 10.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Icon(
-                                        CupertinoIcons.heart,
+                                        CupertinoIcons.bubble_right,
                                         color: black,
                                       ),
                                       Text(" 123")
                                     ],
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.heart,
+                                      color: black,
+                                    ),
+                                    Text(" 123")
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
+                )
+              )
+              )
             ],
           ),
         ),
       );
     }
+    
 
     _openBottomModal(BuildContext context) {
       return showModalBottomSheet(
@@ -330,7 +334,7 @@
                       padding: const EdgeInsets.only(left: 10.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, PageConst.editProfileScreen,
+                          Navigator.pushNamed(context, Screens.editProfileScreen,
                               arguments: widget.currentUser);
                         },
                         child: const Text(
@@ -349,7 +353,7 @@
                       child: InkWell(
                         onTap: () {
                           BlocProvider.of<AuthCubit>(context).loggedOut();
-                          Navigator.pushNamedAndRemoveUntil(context, PageConst.signInPage, (route) => false);
+                          Navigator.pushNamedAndRemoveUntil(context, Screens.signInPage, (route) => false);
                         },
                         child: const Text(
                           "Logout",

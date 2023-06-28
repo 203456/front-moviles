@@ -1,6 +1,9 @@
 
 
 
+import 'package:brilliant_app/Post/domain/entity/post_entity.dart';
+import 'package:brilliant_app/Post/presentation/page/update_post_page.dart';
+
 import 'package:brilliant_app/Profile/presentation/edit_profile_screen.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_in.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_up.dart';
@@ -16,7 +19,7 @@ class OnGenerateRoute {
 
 
     switch(settings.name) {
-      case PageConst.editProfileScreen: {
+      case Screens.editProfileScreen: {
         if (args is UserEntity) {
           return routeBuilder(EditProfileScreen(currentUser: args,));
 
@@ -25,10 +28,17 @@ class OnGenerateRoute {
         }
 
       }
-      case PageConst.signInPage: {
+      case Screens.updatePostPage: {
+        if (args is PostEntity){
+          return routeBuilder(UpdatePostPage(post: args,));
+          } else {
+          return routeBuilder(NoPageFound());
+        }
+      }
+      case Screens.signInPage: {
         return routeBuilder(const SingIn());
       }
-      case PageConst.signUpPage: {
+      case Screens.signUpPage: {
         return routeBuilder(SignUp());
       }
       default: {

@@ -65,7 +65,7 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
                       child: ListView.builder(itemCount: filterAllUsers.length,itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, PageConst.singleUserProfilePage, arguments: filterAllUsers[index].uid);
+                            Navigator.pushNamed(context, Screens.singleUserProfilePage, arguments: filterAllUsers[index].uid);
 
                           },
                           child: Row(
@@ -99,7 +99,7 @@ class _SearchMainWidgetState extends State<SearchMainWidget> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context, PageConst.postDetailPage,
+                                      Navigator.pushNamed(context, Screens.postDetailPage,
                                           arguments: posts[index].postId);
                                     },
                                     child: Container(

@@ -30,7 +30,9 @@ void toast(String message) {
       fontSize: 16.0);
 }
 
-class PageConst {
+class Screens {
+  static const String editPostScreen = 'editPostScreen';
+  static const String commentScreen = 'commentScreen';
   static const String editProfileScreen = "editProfileScreen";
   static const String updatePostPage = "updatePostPage";
   static const String commentPage = "commentPage";
@@ -42,4 +44,5 @@ class PageConst {
   static const String singleUserProfilePage = "singleUserProfilePage";
   static const String followingPage = "followingPage";
   static const String followersPage = "followersPage";
+
 }

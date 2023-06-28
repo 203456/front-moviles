@@ -99,11 +99,11 @@ class _MainScreenState extends State<MainScreen> {
                       )
                           : const Icon(Icons.add_box_outlined, color: black),
                       label: ''),
-                  BottomNavigationBarItem(
+                 /*  BottomNavigationBarItem(
                       icon: _currentIndex == 3
                           ? const Icon(CupertinoIcons.bell_fill, color: black)
                           : const Icon(CupertinoIcons.bell, color: black),
-                      label: ''),
+                      label: ''), */
                   BottomNavigationBarItem(
                       icon: _currentIndex == 4
                           ? const Icon(CupertinoIcons.person_alt_circle_fill,
@@ -121,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
                   const FeedScreen(),
                   const SearchScreen(),
                   PostScreen( currentUser: currentUser,),
-                  const NotificationScreen(),
+                 /*  const NotificationScreen(), */
                   ProfileScreen(currentUser: currentUser,)
                 ],
               )
