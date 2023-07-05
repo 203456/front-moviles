@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:brilliant_app/Post/domain/entity/post_entity.dart';
 
 
+
 abstract class PostRemoteDataSource{
   Future<String> getCurrentId();
 
@@ -13,4 +14,5 @@ abstract class PostRemoteDataSource{
   Future<void> updatePost(PostEntity post);
   Future<void> deletePost(PostEntity post);
   Future<void> likePost(PostEntity post);
+  Future<void> uploadPDF();
 }

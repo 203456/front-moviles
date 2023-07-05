@@ -63,7 +63,11 @@ dependencies:
   chewie: ^1.5.0
   intl: ^0.18.1
   sqflite: 2.2.6
-
+  file_picker: ^5.0.2
+  just_audio: ^0.9.34
+  audioplayers: ^4.1.0
+  flutter_document_picker: ^5.2.3
+  syncfusion_flutter_pdfviewer: ^21.2.10
 dev_dependencies:
   flutter_test:
     sdk: flutter

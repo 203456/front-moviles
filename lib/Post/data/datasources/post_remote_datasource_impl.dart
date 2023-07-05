@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import 'package:uuid/uuid.dart';
+
 
 import '../../../const.dart';
 
@@ -147,4 +147,12 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
 
     postCollection.doc(post.postId).update(postInfo);
   }
+  
+  @override
+  Future<void> uploadPDF() {
+    // TODO: implement uploadPDF
+    throw UnimplementedError();
+  }
+
+
 }

@@ -11,7 +11,7 @@ abstract class PostRepository{
   Future<void> deletePost(PostEntity post);
   Future<void> likePost(PostEntity post);
   Stream<List<PostEntity>> readSinglePost(String postId);
-
+  Future<void> uploadPDF();
   Future<String> getCurrentUid();
 
 

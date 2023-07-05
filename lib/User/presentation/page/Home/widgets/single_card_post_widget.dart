@@ -7,10 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
+import 'package:audioplayers/audioplayers.dart';
 import '../../../../../Post/domain/entity/post_entity.dart';
 import '../../../../../const.dart';
 import 'package:brilliant_app/injection_container.dart' as di;
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class SingleCardPostWidget extends StatefulWidget {
   final PostEntity post;
@@ -22,14 +23,40 @@ class SingleCardPostWidget extends StatefulWidget {
 
 class _SingleCardPostWidgetState extends State<SingleCardPostWidget> {
   String _currentUid = "";
+  final player = AudioPlayer();
+  Duration duration = Duration.zero;
+  Duration position = Duration.zero;
+  late PdfViewerController _pdfViewerController;
+  final GlobalKey<SfPdfViewerState> _pdfViewerStateKey = GlobalKey();
+  bool isPlaying = false;
+  String formatTime(int seconds) {
+    return '${(Duration(seconds: seconds))}'.split('.')[0].padLeft(8, '0');
+  }
+
   @override
   void initState() {
+    _pdfViewerController = PdfViewerController();
     di.sl<GetCurrentIdUseCase>().call().then((value) {
       setState(() {
         _currentUid = value;
       });
     });
     super.initState();
+    player.onPlayerStateChanged.listen((state) {
+      setState(() {
+        isPlaying = state == PlayerState.playing;
+      });
+    });
+    player.onDurationChanged.listen((newDuration) {
+      setState(() {
+        duration = newDuration;
+      });
+    });
+    player.onPositionChanged.listen((newPosition) {
+      setState(() {
+        position = newPosition;
+      });
+    });
   }
 
   bool _isLikeAnimating = false;
@@ -121,7 +148,11 @@ class _SingleCardPostWidgetState extends State<SingleCardPostWidget> {
                       margin: const EdgeInsets.symmetric(vertical: 10.0),
                       width: double.infinity,
                       // height: MediaQuery.of(context).size.height * 0.35,
-                      color: widget.post.postType == 1 ? grey : black,
+                      color: widget.post.postType == 0
+                          ? black
+                          : widget.post.postType == 1
+                              ? grey
+                              : Colors.transparent,
                       child: GestureDetector(
                         onDoubleTap: () {
                           _likePost();
@@ -138,8 +169,82 @@ class _SingleCardPostWidgetState extends State<SingleCardPostWidget> {
                               child: widget.post.postType == 0
                                   ? profileWidget(
                                       imageUrl: "${widget.post.postImageUrl}")
-                                  : VideoPlayerWidget(
-                                      videoUrl: widget.post.postImageUrl!),
+                                  : widget.post.postType == 1
+                                      ? VideoPlayerWidget(
+                                          videoUrl: widget.post.postImageUrl!)
+                                      : widget.post.postType == 2
+                                          ? Column(
+                                              children: [
+                                                isPlaying
+                                                    ? IconButton(
+                                                        onPressed: () {
+                                                          player.pause();
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.pause))
+                                                    : IconButton(
+                                                        onPressed: () {
+                                                          player.play(UrlSource(
+                                                              widget.post
+                                                                  .postImageUrl!));
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.play_arrow),
+                                                      ),
+                                                Slider(
+                                                  min: 0,
+                                                  max: duration.inSeconds
+                                                      .toDouble(),
+                                                  value: position.inSeconds
+                                                      .toDouble(),
+                                                  onChanged: (value) {
+                                                    final position = Duration(
+                                                        seconds: value.toInt());
+                                                    player.seek(position);
+                                                    player.resume();
+                                                  },
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.all(20),
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(formatTime(position
+                                                            .inSeconds)),
+                                                        Text(formatTime(
+                                                            (duration -
+                                                                    position)
+                                                                .inSeconds)),
+                                                      ]),
+                                                ),
+                                              ],
+                                            )
+                                          : SizedBox(
+                                            child: Scaffold(
+                                              body: SfPdfViewer.network(
+                                                  '${widget.post.postImageUrl}',
+                                                  scrollDirection: PdfScrollDirection.vertical,
+                                                  controller:
+                                                      _pdfViewerController,
+                                                  key: _pdfViewerStateKey),
+                                              appBar: AppBar(
+                                                actions: <Widget>[
+                                                  
+                                                  
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        _pdfViewerController
+                                                            .zoomLevel = 1.25;
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.zoom_in,
+                                                        color: Colors.white,
+                                                      ))
+                                                ],
+                                              ),
+                                            ),)
                             ),
                             AnimatedOpacity(
                               duration: const Duration(milliseconds: 200),

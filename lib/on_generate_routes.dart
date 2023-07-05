@@ -2,7 +2,7 @@ import 'package:brilliant_app/Post/domain/entity/post_entity.dart';
 import 'package:brilliant_app/Post/presentation/page/update_post_page.dart';
 
 import 'package:brilliant_app/Profile/presentation/edit_profile_screen.dart';
-import 'package:brilliant_app/Profile/presentation/profile_screen.dart';
+import 'package:brilliant_app/Profile/presentation/widgets/profile_screen.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_in.dart';
 import 'package:brilliant_app/User/presentation/page/credential/sign_up.dart';
 import 'package:brilliant_app/const.dart';
@@ -28,7 +28,7 @@ class OnGenerateRoute {
       case Screens.singleUserProfilePage:
         {
           if (args is UserEntity) {
-            return routeBuilder(ProfileScreen(currentUser: args));
+            return routeBuilder(ProfileScreen(currentUser: args,));
           } else {
             return routeBuilder(NoPageFound());
           }

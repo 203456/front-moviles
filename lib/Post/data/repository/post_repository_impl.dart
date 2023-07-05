@@ -1,5 +1,6 @@
 import 'package:brilliant_app/Post/domain/entity/post_entity.dart';
 import 'package:brilliant_app/Post/domain/repository/post_repository.dart';
+import 'package:brilliant_app/Post/domain/usecases/upload_pdf_usecase.dart';
 
 import '../datasources/post_remote_datasource.dart';
 
@@ -27,5 +28,8 @@ class  PostRepositoryImpl implements PostRepository{
   Stream<List<PostEntity>> readSinglePost(String postId) => remoteDataSource.readSinglePost(postId);
   @override
   Future<String> getCurrentUid() async => remoteDataSource.getCurrentId();
-
+  @override
+  Future<void> uploadPDF() async => remoteDataSource.uploadPDF();
+  
+  
 }

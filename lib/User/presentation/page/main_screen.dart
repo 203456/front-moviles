@@ -1,6 +1,7 @@
 import 'package:brilliant_app/Notification/presentation/notification_screen.dart';
 import 'package:brilliant_app/Post/presentation/page/post_screen.dart';
-import 'package:brilliant_app/Profile/presentation/profile_screen.dart';
+import 'package:brilliant_app/Profile/presentation/profile_page.dart';
+import 'package:brilliant_app/Profile/presentation/widgets/profile_screen.dart';
 import 'package:brilliant_app/User/presentation/cubit/User/get_single_user/get_single_user_cubit.dart';
 import 'package:brilliant_app/User/presentation/page/feed_screen.dart';
 import 'package:brilliant_app/User/presentation/page/search_screen.dart';
@@ -122,7 +123,7 @@ class _MainScreenState extends State<MainScreen> {
                   const SearchScreen(),
                   PostScreen( currentUser: currentUser,),
                  /*  const NotificationScreen(), */
-                  ProfileScreen(currentUser: currentUser,)
+                  ProfilePage(currentUser: currentUser,)
                 ],
               )
           );
@@ -133,4 +134,5 @@ class _MainScreenState extends State<MainScreen> {
       }
     );
   }
+  
 }
